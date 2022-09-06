@@ -27,7 +27,7 @@
 		"project_id":"99536292102589058",
 		"app_id":"106999511",
 		"api_key":"DAEDAN213gt1uLWS++gB+UgB1iCJJoHTNfHy2y2h4UMn1Nrz3mku1CNCDdrgy5D2yaGQChDLqTKnjOpFCEjI3foZA56AIH4DEsUTzw==",
-		"package_name":"com.huawei.randonumber"
+		"package_name":"com.huawei.numberrivercalculator"
 	},
 	"oauth_client":{
 		"client_id":"106999511",
@@ -35,17 +35,17 @@
 	},
 	"app_info":{
 		"app_id":"106999511",
-		"package_name":"com.huawei.randonumber"
+		"package_name":"com.huawei.numberrivercalculator"
 	},
 	"configuration_version":"3.0",
 	"appInfos":[
 		{
-			"package_name":"com.huawei.randonumber",
+			"package_name":"com.huawei.numberrivercalculator",
 			"client":{
 				"app_id":"106999511"
 			},
 			"app_info":{
-				"package_name":"com.huawei.randonumber",
+				"package_name":"com.huawei.numberrivercalculator",
 				"app_id":"106999511"
 			},
 			"oauth_client":{

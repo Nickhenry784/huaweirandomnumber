@@ -132,7 +132,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.huawei.randonumber"
+        applicationId "com.huawei.numberrivercalculator"
         minSdkVersion 19
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,4 +1,4 @@
-package com.huawei.randonumber;
+package com.huawei.numberrivercalculator;
 
 import com.facebook.react.ReactActivity;
 
