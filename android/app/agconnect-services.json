@@ -20,21 +20,21 @@
 		"SG_back":"connect-ws-dra.hispace.dbankcloud.com"
 	},
 	"client":{
-		"cp_id":"30001000034330527",
-		"product_id":"99536292102589058",
-		"client_id":"973694449454435328",
-		"client_secret":"BE9A13A7F272B4BD4AE3CEDEBE0C937862A716AB0B34C10550955F5AAA9870E5",
-		"project_id":"99536292102589058",
-		"app_id":"106999511",
-		"api_key":"DAEDAN213gt1uLWS++gB+UgB1iCJJoHTNfHy2y2h4UMn1Nrz3mku1CNCDdrgy5D2yaGQChDLqTKnjOpFCEjI3foZA56AIH4DEsUTzw==",
+		"cp_id":"30001000034331461",
+		"product_id":"99536292102595240",
+		"client_id":"975276910172982272",
+		"client_secret":"E5CFC61B9F632B65ED5FE3642BB6AE700DFC826F6E485D5169A489C32199D880",
+		"project_id":"99536292102595240",
+		"app_id":"107012581",
+		"api_key":"DAEDAE9sPg0UdS4JLFK1Iho2DeFMnHsRZNm6c0YDOqovZUJldI1fuKvB+5YdEAflyVlXR9I7PRByzyf9lMzgxzeWiIrlWV8p9X8EQg==",
 		"package_name":"com.huawei.numberrivercalculator"
 	},
 	"oauth_client":{
-		"client_id":"106999511",
+		"client_id":"107012581",
 		"client_type":1
 	},
 	"app_info":{
-		"app_id":"106999511",
+		"app_id":"107012581",
 		"package_name":"com.huawei.numberrivercalculator"
 	},
 	"configuration_version":"3.0",
@@ -42,15 +42,15 @@
 		{
 			"package_name":"com.huawei.numberrivercalculator",
 			"client":{
-				"app_id":"106999511"
+				"app_id":"107012581"
 			},
 			"app_info":{
 				"package_name":"com.huawei.numberrivercalculator",
-				"app_id":"106999511"
+				"app_id":"107012581"
 			},
 			"oauth_client":{
 				"client_type":1,
-				"client_id":"106999511"
+				"client_id":"107012581"
 			}
 		}
 	]
