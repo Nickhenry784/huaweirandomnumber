@@ -2,7 +2,7 @@ import {
   View, 
   StyleSheet, 
   TouchableOpacity,
-  Text, Dimensions, 
+  Text, Dimensions,
   ImageBackground, 
   Image,
   FlatList, 
@@ -11,73 +11,70 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {decrement} from '../redux/pointSlice';
 import {useDispatch, useSelector} from 'react-redux';
-
-import { iconData } from "../assets/icon";
 import { images } from "../assets";
 
 const windowWidth = Dimensions.get('screen').width;
 const windowHeight = Dimensions.get('screen').height;
 
-const Home = () => {
+const brokenData= [
+  {id: 1, image: images.passTheBallHigh, background: images.bgPass, title: "Pass The Ball High"},
+  {id: 2, image: images.kickTheBall, background: images.bgKick, title: "Kick The Ball"},
+  {id: 3, image: images.hitTheBall, background: images.bgHit, title: "Hit The Ball"},
+  {id: 4, image: images.blockTheBall, background: images.bgBlock, title: "Block The Ball"},
+];
+
+const HomeScreen = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const points = useSelector(state => state.points);
 
-  const onClickStartButton = (item) => {
-    if (points.value === 0) {
-      Alert.alert('Please buy more turn');
-      return false;
-    }
-    dispatch(decrement());
-    const list = handleRandomListIcon();
-    navigation.navigate("Item",{
-      data: list,
-    });
-  }
-
-  const handleRandomListIcon = () => {
-    const list = [...iconData];
-    for (let index = 0; index < 3; index++) {
-      list.splice(randomIntFromInterval(0, list.length - 1), 1);
-    }
-    const list1 = [...list];
-    const list2 = list.concat(list1);
-    for (let index = 0; index < list2.length; index++) {
-      const element = list2[index];
-      list2.splice(index, 1);
-      list2.splice(randomIntFromInterval(0, 22), 0, element);
-    }
-    return list2;
-  };
-
+  const dispatch = useDispatch();
 
   const onClickTurnButton = () => {
     navigation.navigate("BUY");
   }
 
+  const onClickStartButton = (backgrou, titleN) => {
+    if(points.value <= 0){
+      Alert.alert("Please buy more turn!");
+      return false;
+    }
+    dispatch(decrement());
+    navigation.navigate("Item", {
+      background: backgrou,
+      name: titleN,
+    });
+  }
+
 
   return (
-    <ImageBackground style={appStyle.homeView} source={images.background0}>
+    <ImageBackground style={appStyle.homeView} source={images.bg}>
       <View style={appStyle.appBar}>
         <TouchableOpacity onPress={onClickTurnButton}>
           <View style={appStyle.turnView}>
-            <Image source={images.icon} style={appStyle.scoreStyle} />
+            <Image source={images.ball} style={appStyle.buyImage} />
             <Text style={appStyle.turnText}>{points.value}</Text>
           </View>
         </TouchableOpacity>
       </View>
+      <View style={{position: 'absolute', top: '10%'}}>
+        <Image source={images.volleyballTips} style={appStyle.labelImage} />
+      </View>
       <View style={appStyle.centerView}>
-        <TouchableOpacity onPress={onClickStartButton}>
-          <Image source={images.start} style={appStyle.startBtn} />
-        </TouchableOpacity>
+        <FlatList 
+          data={brokenData}
+          scrollEnabled={false}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => onClickStartButton(item.background, item.title)}>
+              <Image source={item.image} style={appStyle.itemView} />
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </ImageBackground>
   );
 };
 
-export const randomIntFromInterval = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
 
 export const appStyle = StyleSheet.create({
   homeView: {
@@ -85,85 +82,58 @@ export const appStyle = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     resizeMode: 'cover',
   },
   appBar: {
     position: 'absolute',
-    left: '5%',
-    width: '100%',
     top: '3%',
-    alignItems: 'center',
+    left: '3%',
+  },
+  turnView: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  popupImage: {
-    width: windowWidth,
-    height: windowHeight * 0.3,
+    width: windowWidth * 0.15,
+    height: '100%',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  popupView: {
-    width: windowWidth,
-    height: windowHeight,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(1, 1, 1, 0.7)',
-    position: 'absolute',
-    top: '0%',
-    left: '0%',
-    right: '0%',
-    bottom: '0%',
+  turnText: {
+    fontSize: windowWidth > 640 ? 30 : 25,
+    fontWeight: 'bold',
+    color: 'black',
   },
   buyImage: {
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
     resizeMode: 'contain',
   },
-  okBtn: {
-    width: windowWidth * 0.1,
-    height: windowWidth * 0.1,
+  brokenImage: {
+    width: windowWidth * 0.4,
+    height: windowWidth * 0.2,
     resizeMode: 'contain',
   },
-  bottomView: {
-    flex: 0.5,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+  itemView: {
+    width: windowWidth * 0.8,
+    height: windowWidth * 0.3,
+    resizeMode: 'contain',
+  },
+  text: {
+    fontSize: windowWidth > 640 ? 30 : 25,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  labelImage: {
+    width: windowWidth * 0.6,
+    height: windowWidth * 0.2,
+    resizeMode: 'contain',
   },
   centerView: {
-    flex: 0.4,
+    flex: 0.8,
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  turnView: {
-    width: windowWidth * 0.15,
-    marginRight: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  bullImage: {
-    width: windowWidth * 0.4,
-    height: windowWidth * 0.4,
-    resizeMode: 'contain',
-  },
-  startBtn: {
-    width: windowWidth * 0.5,
-    height: windowHeight * 0.3,
-    resizeMode: 'contain',
-  },
-  scoreStyle: {
-    width: windowWidth * 0.1,
-    height: windowWidth * 0.1,
-    resizeMode: 'contain',
-  },
-  turnText: {
-    fontSize: 30,
-    color: 'white',
-    fontWeight: 'bold',
+    justifyContent: 'flex-end',
+    resizeMode: 'cover',
   },
 });
 
-export default Home;
+export default HomeScreen;

@@ -132,7 +132,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.serectpick.huawei"
+        applicationId "com.volleyballtipsvla.huawei"
         minSdkVersion 19
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2

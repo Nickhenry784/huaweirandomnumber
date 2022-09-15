@@ -1,4 +1,4 @@
-package com.serectpick.huawei;
+package com.volleyballtipsvla.huawei;
 
 import com.facebook.react.ReactActivity;
 

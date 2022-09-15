@@ -20,37 +20,37 @@
 		"SG_back":"connect-ws-dra.hispace.dbankcloud.com"
 	},
 	"client":{
-		"cp_id":"30001000034330527",
-		"product_id":"99536292102612630",
-		"client_id":"981083936333515776",
-		"client_secret":"A6920261F319C5EC0BDDC84F88851B4CB5F0C2B7AF51820CBCB20BFE6E6CB4A4",
-		"project_id":"99536292102612630",
-		"app_id":"107056029",
-		"api_key":"DAEDACbXRuziwDWlsXNGmMbIyfYQDioO27iCU8x+kDoeazjxhg6oskm6WsdAOn0bwYiRfw07uMTT13JOKwAmRmRbZEiDLs0gYvbH/w==",
-		"package_name":"com.serectpick.huawei"
+		"cp_id":"30001000034331461",
+		"product_id":"99536292102612767",
+		"client_id":"981098064888482816",
+		"client_secret":"ACB70F7DC5EC62FA5AF8105B7651086FB6ADF493A34979DE9ABA2434A765FEA3",
+		"project_id":"99536292102612767",
+		"app_id":"107056249",
+		"api_key":"DAEDADoK+uS78oO+D1jBXPmgHscYJyhkphQLmuPTETrxCGXsC+pU+h6LQtZyOjO7pX7sZuvrG9dHdS8tSKw/v+f3SzHs69lov2R+0w==",
+		"package_name":"com.volleyballtipsvla.huawei"
 	},
 	"oauth_client":{
-		"client_id":"107056029",
+		"client_id":"107056249",
 		"client_type":1
 	},
 	"app_info":{
-		"app_id":"107056029",
-		"package_name":"com.serectpick.huawei"
+		"app_id":"107056249",
+		"package_name":"com.volleyballtipsvla.huawei"
 	},
 	"configuration_version":"3.0",
 	"appInfos":[
 		{
-			"package_name":"com.serectpick.huawei",
+			"package_name":"com.volleyballtipsvla.huawei",
 			"client":{
-				"app_id":"107056029"
+				"app_id":"107056249"
 			},
 			"app_info":{
-				"package_name":"com.serectpick.huawei",
-				"app_id":"107056029"
+				"package_name":"com.volleyballtipsvla.huawei",
+				"app_id":"107056249"
 			},
 			"oauth_client":{
 				"client_type":1,
-				"client_id":"107056029"
+				"client_id":"107056249"
 			}
 		}
 	]
