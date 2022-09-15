@@ -7,62 +7,143 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
-  TextInput} from "react-native";
-import React, {useEffect, useState} from 'react';
+  FlatList} from "react-native";
+import React, {useEffect, useState, useRef} from 'react';
 import { images } from "../assets";
-
 
 const windowWidth = Dimensions.get('screen').width;
 const windowHeight = Dimensions.get('screen').height;
 
+const PlayScreen = ({navigation, route}) => {
 
-const ItemScreen = ({navigation, route}) => {
-
-  const [text, setText] = useState(randomIntFromInterval(0,1000));
+  const {data} = route.params;
+  const [startGameState, setStartGameState] = useState([]);
   const [score, setScore] = useState(0);
-  const [number, onChangeNumber] = useState(null);
+  const [heart, setHeart] = useState(3);
+  const [minutesCoutdown, setMinutesCoutdown] = useState(2);
+  const [secondsCoutdown, setSecondsCoutdown] = useState(60);
+  const [doubleClick, setDoubleClick] = useState(false);
+  const [result, setResult] = useState(null);
+  const num = 4;
+  const indexOld = useRef(-1);
 
-  const handleClickCheckBtn = async () => {
-    var converter = require('number-to-words');
-    const result = converter.toWords(text);
-    if(result.toLocaleLowerCase() === number.toLocaleLowerCase()){
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (secondsCoutdown > 0) {
+        setSecondsCoutdown(secondsCoutdown - 1);
+      }
+      if (secondsCoutdown === 0 && minutesCoutdown > 0) {
+        setMinutesCoutdown(minutesCoutdown - 1);
+        setSecondsCoutdown(60);
+      }
+      if (secondsCoutdown === 0 && minutesCoutdown === 0) {
+        onClickOKButton();
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [secondsCoutdown, minutesCoutdown]);
+
+  const onClickIconImage = (value, index) => {
+    const list = [...startGameState];
+    list[index] = true;
+
+    if (!doubleClick) {
+      indexOld.current = index;
+      setResult(value);
+      setDoubleClick(true);
+      setStartGameState(list);
+      return false;
+    }
+    if (result.id === value.id) {
       setScore(score + 10);
-      setText(randomIntFromInterval(0,1000));
-      onChangeNumber(null);
-    }else{
+    } else {
+      setHeart(heart - 1);
+      list[indexOld.current] = false;
+      list[index] = false;
+    }
+    if (heart === 0) {
       navigation.goBack();
     }
-  }
+    if (score === 110) {
+      navigation.goBack();
+    }
+    setDoubleClick(false);
+    setResult(null);
+    setStartGameState(list);
+  };
 
+  const onClickOKButton = () => {
+    setMinutesCoutdown(0);
+    setSecondsCoutdown(0);
+    const list = [...startGameState];
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < data.length; index++) {
+      list.push(false);
+    }
+    setStartGameState(list);
+  };
   return (
-    <ImageBackground style={appStyle.homeView} source={images.bg1}>
-      <View style={appStyle.closeView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={images.btnback} style={appStyle.btnClose} />
-        </TouchableOpacity>
-        <Text style={appStyle.scoreText}>{`Score: ${score}`}</Text>
+    <ImageBackground source={images.background} style={appStyle.homeView}>
+      <View style={appStyle.appBar}>
+        <Text style={appStyle.turn}>
+          SCORE:
+          {score}
+        </Text>
+        {startGameState.length !== 0 && (
+          <Text style={appStyle.turn}>
+            HEART:
+            {heart}
+          </Text>
+        )}
       </View>
       <View style={appStyle.centerView}>
-        <Text style={appStyle.labelText}>{text}</Text>
-      </View>
-      <Text style={appStyle.label}>Input your value </Text>
-      <View style={appStyle.bottomView}>
-        <TextInput
-          style={appStyle.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="text here"
+        {startGameState.length === 0 && (
+          <Text style={appStyle.timeText}>
+            {`${minutesCoutdown} : ${secondsCoutdown}`}
+          </Text>
+        )}
+        <FlatList
+          data={data}
+          numColumns={num}
+          scrollEnabled={false}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+              onPress={() => onClickIconImage(item, index)}
+              onLongPress={() => onClickIconImage(item, index)}
+              disabled={
+                startGameState.length === 0 ? true : startGameState[index]
+              }
+              style={appStyle.iconButton}>
+              {startGameState.length === 0 ? (
+                <Image source={item.image} style={appStyle.iconImage} />
+              ) : (
+                <Image
+                  source={
+                    startGameState[index] ? item.image : images.icon
+                  }
+                  style={appStyle.iconImage}
+                />
+              )}
+            </TouchableOpacity>
+          )}
         />
-        <TouchableOpacity onPress={() => handleClickCheckBtn()}>
-          <Image source={images.btncheck} style={appStyle.btn} />
-        </TouchableOpacity>
+        {startGameState.length === 0 ? (
+          <TouchableOpacity
+            onPress={onClickOKButton}>
+            <Image source={images.start} style={appStyle.startImage} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}>
+            <Image source={images.back} style={appStyle.startImage} />
+          </TouchableOpacity>
+        )}
       </View>
     </ImageBackground>
   );
 };
-
-export const randomIntFromInterval = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
 
 export const appStyle = StyleSheet.create({
   homeView: {
@@ -70,68 +151,49 @@ export const appStyle = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     resizeMode: 'cover',
   },
-  input: {
-    height: 60,
-    backgroundColor: 'white',
-    width: windowWidth * 0.7,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 30,
-    fontFamily: 'fengardo-neue.regular',
-    color: 'black',
-  },
-  closeView: {
-    width: windowWidth,
-    height: windowHeight * 0.1,
+  appBar: {
+    flex: 0.1,
+    width: '100%',
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: 20,
+  },
+  turn: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
   },
   centerView: {
-    width: windowWidth * 0.8,
-    height: windowHeight * 0.3,
+    flex: 0.9,
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    borderRadius: 16,
+    width: '100%',
   },
-  labelText: {
-    fontSize: 120,
-    fontFamily: 'fengardo-neue.regular',
-    color: 'black',
-  },
-  label: {
+  timeText: {
     fontSize: 30,
-    fontFamily: 'fengardo-neue.regular',
-    color: 'black',
-    marginVertical: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
   },
-  scoreText: {
-    fontSize: 30,
-    fontFamily: 'fengardo-neue.regular',
-    color: 'black',
+  iconButton: {
+    width: windowWidth * 0.2,
+    height: windowWidth * 0.2,
+    alignItems: 'center',
   },
-  btnClose: {
-    width: windowWidth * 0.1,
+  iconImage: {
+    width: windowWidth * 0.15,
+    height: windowWidth * 0.15,
+    resizeMode: 'contain',
+  },
+  startImage: {
+    width: windowWidth * 0.3,
     height: windowHeight * 0.1,
     resizeMode: 'contain',
   },
-  btn: {
-    width: windowWidth * 0.4,
-    height: windowHeight * 0.2,
-    resizeMode: 'contain',
-  },
-  bottomView: {
-    width: windowWidth,
-    height: windowHeight * 0.4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });
 
-export default ItemScreen;
+export default PlayScreen;

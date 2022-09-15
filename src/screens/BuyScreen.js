@@ -21,6 +21,7 @@ import HMSIapModule from '@hmscore/react-native-hms-iap'
 
 export default function App() {
   const [dataProduct,setDataProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,7 +71,10 @@ export default function App() {
       .then(productInfoResult => {
         console.log(JSON.stringify(productInfoResult));
         setDataProduct(productInfoResult.productInfoList);
-        console.log(dataProduct);
+        if(productInfoResult.errMsg === "success"){
+          setIsLoading(true);
+        }
+        
       })
       .catch(err => {
         console.log(JSON.stringify(err));
@@ -116,7 +120,7 @@ export default function App() {
 
   return (
     <ImageBackground source={images.background} style={styles.homeView}>
-    {dataProduct === null ? (
+    {!isLoading? (
         <ActivityIndicator size="large" />
       ) : (
         <>
@@ -217,9 +221,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemList3: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: -5,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   item3: {
     width: '50%',

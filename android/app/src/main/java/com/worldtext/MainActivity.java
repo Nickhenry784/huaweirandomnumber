@@ -1,4 +1,4 @@
-package com.huawei.randonumber;
+package com.serectpick.huawei;
 
 import com.facebook.react.ReactActivity;
 
